@@ -280,6 +280,26 @@
     
 
     
+    \section{PROBLEM STATEMENT}\label{problem-statement}
+
+This is the POC for Human Resource Attrition in an organisation. I have
+selected multiple features like satisfaction level of the employee
+(satisfaction\_level), his/her last evaluation score (last\_evaluation),
+the number of projects completed by the individual (number\_project),
+average monthly hours he/she has spent in the workspace
+(average\_montly\_hours, number of years spent in the orgaisation
+(time\_spend\_company), if he/she has been involved in a work-place
+accident (Work\_accident), if he/she has had a promotion in the last 5
+years in the company (promotion\_last\_5years), the department they work
+in (sales) and the category of salary they receive(salary). We shall use
+these features to predict the attrition of the organisation (left).
+Applied multiple algorithms to train, test and evaluate the following
+machine learning models, Logistic Regression, K Nearest Neighbors
+Classifier, Support Vector Machine Classifier, Decision Tree Classifier,
+Random Forest Classifier, AdaBoost Classifier, Gaussian Naive Bayes
+classifier, Quadratic Discriminant Analysis and Linear Discriminant
+Analysis.
+
     \subsubsection{Pandas}\label{pandas}
 
 \textbf{\href{https://pandas.pydata.org/pandas-docs/version/0.20/}{Pandas}}
@@ -326,7 +346,7 @@ high-level interface for drawing attractive statistical graphics.
 packages}\label{importing-the-necessary-packages}
 
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}2}]:} \PY{c+c1}{\PYZsh{} importing the basic packages}
+{\color{incolor}In [{\color{incolor}1}]:} \PY{c+c1}{\PYZsh{} importing the basic packages}
         
         \PY{k+kn}{import} \PY{n+nn}{pandas} \PY{k}{as} \PY{n+nn}{pd}
         \PY{k+kn}{import} \PY{n+nn}{numpy} \PY{k}{as} \PY{n+nn}{np}
@@ -339,7 +359,7 @@ packages}\label{importing-the-necessary-packages}
 Commands}}
 
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}4}]:} \PY{c+c1}{\PYZsh{} Special line in jupyter notebooks that helps to display the plot in the notebook itself}
+{\color{incolor}In [{\color{incolor}2}]:} \PY{c+c1}{\PYZsh{} Special line in jupyter notebooks that helps to display the plot in the notebook itself}
         
         \PY{o}{\PYZpc{}}\PY{k}{matplotlib} inline
 \end{Verbatim}
@@ -348,7 +368,7 @@ Commands}}
     \section{Data Preprocessing}\label{data-preprocessing}
 
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}5}]:} \PY{c+c1}{\PYZsh{} importing the datafile}
+{\color{incolor}In [{\color{incolor}3}]:} \PY{c+c1}{\PYZsh{} importing the datafile}
         \PY{n}{df} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{turnover.csv}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
 \end{Verbatim}
 
@@ -363,9 +383,9 @@ memory\_usage=None, null\_counts=None)
 Print a concise summary of a DataFrame.
 
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}13}]:} \PY{c+c1}{\PYZsh{} Checking for NULL values}
-         \PY{c+c1}{\PYZsh{} From the results, it\PYZsq{}s clear that the dataset does NOT contain any null/nan/empty values}
-         \PY{n}{df}\PY{o}{.}\PY{n}{info}\PY{p}{(}\PY{p}{)}
+{\color{incolor}In [{\color{incolor}4}]:} \PY{c+c1}{\PYZsh{} Checking for NULL values}
+        \PY{c+c1}{\PYZsh{} From the results, it\PYZsq{}s clear that the dataset does NOT contain any null/nan/empty values}
+        \PY{n}{df}\PY{o}{.}\PY{n}{info}\PY{p}{(}\PY{p}{)}
 \end{Verbatim}
 
 
@@ -396,92 +416,92 @@ Generates descriptive statistics that summarize the central tendency,
 dispersion and shape of a dataset's distribution, excluding NaN values.
 
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}14}]:} \PY{c+c1}{\PYZsh{} Checking the distribution of the numerical attributes}
-         \PY{n}{df}\PY{o}{.}\PY{n}{describe}\PY{p}{(}\PY{p}{)}
+{\color{incolor}In [{\color{incolor}5}]:} \PY{c+c1}{\PYZsh{} Checking the distribution of the numerical attributes}
+        \PY{n}{df}\PY{o}{.}\PY{n}{describe}\PY{p}{(}\PY{p}{)}
 \end{Verbatim}
 
 
 \begin{Verbatim}[commandchars=\\\{\}]
-{\color{outcolor}Out[{\color{outcolor}14}]:}        satisfaction\_level  last\_evaluation  number\_project  \textbackslash{}
-         count        14999.000000     14999.000000    14999.000000   
-         mean             0.612834         0.716102        3.803054   
-         std              0.248631         0.171169        1.232592   
-         min              0.090000         0.360000        2.000000   
-         25\%              0.440000         0.560000        3.000000   
-         50\%              0.640000         0.720000        4.000000   
-         75\%              0.820000         0.870000        5.000000   
-         max              1.000000         1.000000        7.000000   
-         
-                average\_montly\_hours  time\_spend\_company  Work\_accident          left  \textbackslash{}
-         count          14999.000000        14999.000000   14999.000000  14999.000000   
-         mean             201.050337            3.498233       0.144610      0.238083   
-         std               49.943099            1.460136       0.351719      0.425924   
-         min               96.000000            2.000000       0.000000      0.000000   
-         25\%              156.000000            3.000000       0.000000      0.000000   
-         50\%              200.000000            3.000000       0.000000      0.000000   
-         75\%              245.000000            4.000000       0.000000      0.000000   
-         max              310.000000           10.000000       1.000000      1.000000   
-         
-                promotion\_last\_5years  
-         count           14999.000000  
-         mean                0.021268  
-         std                 0.144281  
-         min                 0.000000  
-         25\%                 0.000000  
-         50\%                 0.000000  
-         75\%                 0.000000  
-         max                 1.000000  
+{\color{outcolor}Out[{\color{outcolor}5}]:}        satisfaction\_level  last\_evaluation  number\_project  \textbackslash{}
+        count        14999.000000     14999.000000    14999.000000   
+        mean             0.612834         0.716102        3.803054   
+        std              0.248631         0.171169        1.232592   
+        min              0.090000         0.360000        2.000000   
+        25\%              0.440000         0.560000        3.000000   
+        50\%              0.640000         0.720000        4.000000   
+        75\%              0.820000         0.870000        5.000000   
+        max              1.000000         1.000000        7.000000   
+        
+               average\_montly\_hours  time\_spend\_company  Work\_accident          left  \textbackslash{}
+        count          14999.000000        14999.000000   14999.000000  14999.000000   
+        mean             201.050337            3.498233       0.144610      0.238083   
+        std               49.943099            1.460136       0.351719      0.425924   
+        min               96.000000            2.000000       0.000000      0.000000   
+        25\%              156.000000            3.000000       0.000000      0.000000   
+        50\%              200.000000            3.000000       0.000000      0.000000   
+        75\%              245.000000            4.000000       0.000000      0.000000   
+        max              310.000000           10.000000       1.000000      1.000000   
+        
+               promotion\_last\_5years  
+        count           14999.000000  
+        mean                0.021268  
+        std                 0.144281  
+        min                 0.000000  
+        25\%                 0.000000  
+        50\%                 0.000000  
+        75\%                 0.000000  
+        max                 1.000000  
 \end{Verbatim}
             
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}15}]:} \PY{n}{df}\PY{o}{.}\PY{n}{head}\PY{p}{(}\PY{p}{)}
+{\color{incolor}In [{\color{incolor}6}]:} \PY{n}{df}\PY{o}{.}\PY{n}{head}\PY{p}{(}\PY{p}{)}
 \end{Verbatim}
 
 
 \begin{Verbatim}[commandchars=\\\{\}]
-{\color{outcolor}Out[{\color{outcolor}15}]:}    satisfaction\_level  last\_evaluation  number\_project  average\_montly\_hours  \textbackslash{}
-         0                0.38             0.53               2                   157   
-         1                0.80             0.86               5                   262   
-         2                0.11             0.88               7                   272   
-         3                0.72             0.87               5                   223   
-         4                0.37             0.52               2                   159   
-         
-            time\_spend\_company  Work\_accident  left  promotion\_last\_5years  sales  \textbackslash{}
-         0                   3              0     1                      0  sales   
-         1                   6              0     1                      0  sales   
-         2                   4              0     1                      0  sales   
-         3                   5              0     1                      0  sales   
-         4                   3              0     1                      0  sales   
-         
-            salary  
-         0     low  
-         1  medium  
-         2  medium  
-         3     low  
-         4     low  
+{\color{outcolor}Out[{\color{outcolor}6}]:}    satisfaction\_level  last\_evaluation  number\_project  average\_montly\_hours  \textbackslash{}
+        0                0.38             0.53               2                   157   
+        1                0.80             0.86               5                   262   
+        2                0.11             0.88               7                   272   
+        3                0.72             0.87               5                   223   
+        4                0.37             0.52               2                   159   
+        
+           time\_spend\_company  Work\_accident  left  promotion\_last\_5years  sales  \textbackslash{}
+        0                   3              0     1                      0  sales   
+        1                   6              0     1                      0  sales   
+        2                   4              0     1                      0  sales   
+        3                   5              0     1                      0  sales   
+        4                   3              0     1                      0  sales   
+        
+           salary  
+        0     low  
+        1  medium  
+        2  medium  
+        3     low  
+        4     low  
 \end{Verbatim}
             
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}16}]:} \PY{c+c1}{\PYZsh{} Checking the names of the columns}
-         \PY{n}{df}\PY{o}{.}\PY{n}{columns}
+{\color{incolor}In [{\color{incolor}7}]:} \PY{c+c1}{\PYZsh{} Checking the names of the columns}
+        \PY{n}{df}\PY{o}{.}\PY{n}{columns}
 \end{Verbatim}
 
 
 \begin{Verbatim}[commandchars=\\\{\}]
-{\color{outcolor}Out[{\color{outcolor}16}]:} Index(['satisfaction\_level', 'last\_evaluation', 'number\_project',
-                'average\_montly\_hours', 'time\_spend\_company', 'Work\_accident', 'left',
-                'promotion\_last\_5years', 'sales', 'salary'],
-               dtype='object')
+{\color{outcolor}Out[{\color{outcolor}7}]:} Index(['satisfaction\_level', 'last\_evaluation', 'number\_project',
+               'average\_montly\_hours', 'time\_spend\_company', 'Work\_accident', 'left',
+               'promotion\_last\_5years', 'sales', 'salary'],
+              dtype='object')
 \end{Verbatim}
             
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}17}]:} \PY{c+c1}{\PYZsh{} Checking the values in the output label}
-         \PY{n}{df}\PY{o}{.}\PY{n}{left}\PY{o}{.}\PY{n}{unique}\PY{p}{(}\PY{p}{)}
+{\color{incolor}In [{\color{incolor}8}]:} \PY{c+c1}{\PYZsh{} Checking the values in the output label}
+        \PY{n}{df}\PY{o}{.}\PY{n}{left}\PY{o}{.}\PY{n}{unique}\PY{p}{(}\PY{p}{)}
 \end{Verbatim}
 
 
 \begin{Verbatim}[commandchars=\\\{\}]
-{\color{outcolor}Out[{\color{outcolor}17}]:} array([1, 0], dtype=int64)
+{\color{outcolor}Out[{\color{outcolor}8}]:} array([1, 0])
 \end{Verbatim}
             
     \subsubsection{Encoding 'sales' and
@@ -493,18 +513,18 @@ column (Object type), we convert them into numerical attributes.
     \paragraph{sales}\label{sales}
 
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}48}]:} \PY{c+c1}{\PYZsh{} Checking the unique values in the \PYZsq{}salary\PYZsq{} column}
-         \PY{n}{df}\PY{o}{.}\PY{n}{sales}\PY{o}{.}\PY{n}{unique}\PY{p}{(}\PY{p}{)}
+{\color{incolor}In [{\color{incolor}9}]:} \PY{c+c1}{\PYZsh{} Checking the unique values in the \PYZsq{}salary\PYZsq{} column}
+        \PY{n}{df}\PY{o}{.}\PY{n}{sales}\PY{o}{.}\PY{n}{unique}\PY{p}{(}\PY{p}{)}
 \end{Verbatim}
 
 
 \begin{Verbatim}[commandchars=\\\{\}]
-{\color{outcolor}Out[{\color{outcolor}48}]:} array(['sales', 'accounting', 'hr', 'technical', 'support', 'management',
-                'IT', 'product\_mng', 'marketing', 'RandD'], dtype=object)
+{\color{outcolor}Out[{\color{outcolor}9}]:} array(['sales', 'accounting', 'hr', 'technical', 'support', 'management',
+               'IT', 'product\_mng', 'marketing', 'RandD'], dtype=object)
 \end{Verbatim}
             
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}49}]:} \PY{c+c1}{\PYZsh{} counting the number unique values in the \PYZsq{}sales\PYZsq{} column}
+{\color{incolor}In [{\color{incolor}10}]:} \PY{c+c1}{\PYZsh{} counting the number unique values in the \PYZsq{}sales\PYZsq{} column}
          \PY{n}{sales\PYZus{}grouped} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{n}{df}\PY{o}{.}\PY{n}{sales}\PY{o}{.}\PY{n}{groupby}\PY{p}{(}\PY{n}{by}\PY{o}{=}\PY{n}{df}\PY{o}{.}\PY{n}{sales}\PY{p}{)}\PY{o}{.}\PY{n}{count}\PY{p}{(}\PY{p}{)}\PY{p}{)}
          
          \PY{n+nb}{print}\PY{p}{(}\PY{n}{df}\PY{o}{.}\PY{n}{sales}\PY{o}{.}\PY{n}{groupby}\PY{p}{(}\PY{n}{by}\PY{o}{=}\PY{n}{df}\PY{o}{.}\PY{n}{sales}\PY{p}{)}\PY{o}{.}\PY{n}{count}\PY{p}{(}\PY{p}{)}\PY{p}{)}
@@ -532,17 +552,17 @@ Total = 14999
     \end{Verbatim}
 
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}84}]:} \PY{c+c1}{\PYZsh{} plotting the grouped unique values in the \PYZsq{}sales\PYZsq{} column}
+{\color{incolor}In [{\color{incolor}11}]:} \PY{c+c1}{\PYZsh{} plotting the grouped unique values in the \PYZsq{}sales\PYZsq{} column}
          \PY{n}{sales\PYZus{}grouped}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{kind}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{bar}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{15}\PY{p}{,}\PY{l+m+mi}{6}\PY{p}{)}\PY{p}{)}
 \end{Verbatim}
 
 
 \begin{Verbatim}[commandchars=\\\{\}]
-{\color{outcolor}Out[{\color{outcolor}84}]:} <matplotlib.axes.\_subplots.AxesSubplot at 0x219211d84e0>
+{\color{outcolor}Out[{\color{outcolor}11}]:} <matplotlib.axes.\_subplots.AxesSubplot at 0x7fd14a7ff550>
 \end{Verbatim}
             
     \begin{center}
-    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_19_1.png}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_20_1.png}
     \end{center}
     { \hspace*{\fill} \\}
     
@@ -557,18 +577,18 @@ column to a number.
 LabelEncoder Documentation}
 
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}51}]:} \PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{preprocessing} \PY{k}{import} \PY{n}{LabelEncoder}
+{\color{incolor}In [{\color{incolor}12}]:} \PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{preprocessing} \PY{k}{import} \PY{n}{LabelEncoder}
 \end{Verbatim}
 
 
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}52}]:} \PY{c+c1}{\PYZsh{} initializing}
+{\color{incolor}In [{\color{incolor}13}]:} \PY{c+c1}{\PYZsh{} initializing}
          \PY{n}{label\PYZus{}encoder} \PY{o}{=} \PY{n}{LabelEncoder}\PY{p}{(}\PY{p}{)}
 \end{Verbatim}
 
 
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}59}]:} \PY{n}{sales\PYZus{}label} \PY{o}{=} \PY{n}{label\PYZus{}encoder}\PY{o}{.}\PY{n}{fit\PYZus{}transform}\PY{p}{(}\PY{n}{df}\PY{o}{.}\PY{n}{sales}\PY{p}{)} \PY{c+c1}{\PYZsh{} converting all \PYZsq{}categorical values\PYZsq{} to \PYZsq{}numerical\PYZsq{}}
+{\color{incolor}In [{\color{incolor}14}]:} \PY{n}{sales\PYZus{}label} \PY{o}{=} \PY{n}{label\PYZus{}encoder}\PY{o}{.}\PY{n}{fit\PYZus{}transform}\PY{p}{(}\PY{n}{df}\PY{o}{.}\PY{n}{sales}\PY{p}{)} \PY{c+c1}{\PYZsh{} converting all \PYZsq{}categorical values\PYZsq{} to \PYZsq{}numerical\PYZsq{}}
          
          \PY{n+nb}{print}\PY{p}{(}\PY{n+nb}{type}\PY{p}{(}\PY{n}{sales\PYZus{}label}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}\PY{p}{)} \PY{c+c1}{\PYZsh{} checking the data type for the values in \PYZsq{}sales\PYZus{}label\PYZsq{}}
          
@@ -582,23 +602,23 @@ LabelEncoder Documentation}
     \end{Verbatim}
 
 \begin{Verbatim}[commandchars=\\\{\}]
-{\color{outcolor}Out[{\color{outcolor}59}]:} array([7, 7, 7, {\ldots}, 8, 8, 8], dtype=int64)
+{\color{outcolor}Out[{\color{outcolor}14}]:} array([7, 7, 7, {\ldots}, 8, 8, 8])
 \end{Verbatim}
             
     \paragraph{salary}\label{salary}
 
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}54}]:} \PY{c+c1}{\PYZsh{} Checking the unique values of the \PYZsq{}salary\PYZsq{} attribute}
+{\color{incolor}In [{\color{incolor}15}]:} \PY{c+c1}{\PYZsh{} Checking the unique values of the \PYZsq{}salary\PYZsq{} attribute}
          \PY{n}{df}\PY{o}{.}\PY{n}{salary}\PY{o}{.}\PY{n}{unique}\PY{p}{(}\PY{p}{)}
 \end{Verbatim}
 
 
 \begin{Verbatim}[commandchars=\\\{\}]
-{\color{outcolor}Out[{\color{outcolor}54}]:} array(['low', 'medium', 'high'], dtype=object)
+{\color{outcolor}Out[{\color{outcolor}15}]:} array(['low', 'medium', 'high'], dtype=object)
 \end{Verbatim}
             
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}55}]:} \PY{c+c1}{\PYZsh{} count salary}
+{\color{incolor}In [{\color{incolor}16}]:} \PY{c+c1}{\PYZsh{} count salary}
          \PY{n}{salary\PYZus{}grouped} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{n}{df}\PY{o}{.}\PY{n}{salary}\PY{o}{.}\PY{n}{groupby}\PY{p}{(}\PY{n}{by}\PY{o}{=}\PY{n}{df}\PY{o}{.}\PY{n}{salary}\PY{p}{)}\PY{o}{.}\PY{n}{count}\PY{p}{(}\PY{p}{)}\PY{p}{)}
          
          \PY{n+nb}{print}\PY{p}{(}\PY{n}{df}\PY{o}{.}\PY{n}{salary}\PY{o}{.}\PY{n}{groupby}\PY{p}{(}\PY{n}{by}\PY{o}{=}\PY{n}{df}\PY{o}{.}\PY{n}{salary}\PY{p}{)}\PY{o}{.}\PY{n}{count}\PY{p}{(}\PY{p}{)}\PY{p}{)}
@@ -619,17 +639,17 @@ Name: salary, dtype: int64
     \end{Verbatim}
 
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}85}]:} \PY{c+c1}{\PYZsh{} plotting the grouped unique values in the \PYZsq{}salary\PYZsq{} column}
+{\color{incolor}In [{\color{incolor}17}]:} \PY{c+c1}{\PYZsh{} plotting the grouped unique values in the \PYZsq{}salary\PYZsq{} column}
          \PY{n}{salary\PYZus{}grouped}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{kind}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{bar}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{,}\PY{l+m+mi}{6}\PY{p}{)}\PY{p}{)}
 \end{Verbatim}
 
 
 \begin{Verbatim}[commandchars=\\\{\}]
-{\color{outcolor}Out[{\color{outcolor}85}]:} <matplotlib.axes.\_subplots.AxesSubplot at 0x2192188abe0>
+{\color{outcolor}Out[{\color{outcolor}17}]:} <matplotlib.axes.\_subplots.AxesSubplot at 0x7fd10946bc88>
 \end{Verbatim}
             
     \begin{center}
-    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_27_1.png}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_28_1.png}
     \end{center}
     { \hspace*{\fill} \\}
     
@@ -642,13 +662,13 @@ dichotomous variables.
 Dummy Encoding Documentation}
 
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}61}]:} \PY{n}{salary\PYZus{}label} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{get\PYZus{}dummies}\PY{p}{(}\PY{n}{df}\PY{o}{.}\PY{n}{salary}\PY{p}{,} \PY{n}{prefix}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{sal}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+{\color{incolor}In [{\color{incolor}18}]:} \PY{n}{salary\PYZus{}label} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{get\PYZus{}dummies}\PY{p}{(}\PY{n}{df}\PY{o}{.}\PY{n}{salary}\PY{p}{,} \PY{n}{prefix}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{sal}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
          \PY{n}{salary\PYZus{}label}\PY{o}{.}\PY{n}{head}\PY{p}{(}\PY{p}{)}
 \end{Verbatim}
 
 
 \begin{Verbatim}[commandchars=\\\{\}]
-{\color{outcolor}Out[{\color{outcolor}61}]:}    sal\_high  sal\_low  sal\_medium
+{\color{outcolor}Out[{\color{outcolor}18}]:}    sal\_high  sal\_low  sal\_medium
          0         0        1           0
          1         0        0           1
          2         0        0           1
@@ -660,20 +680,20 @@ Dummy Encoding Documentation}
 DataFrame}\label{concatenating-new-columns-to-the-original-dataframe}
 
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}64}]:} \PY{c+c1}{\PYZsh{} concatenating \PYZsq{}salary\PYZus{}label\PYZsq{} column}
+{\color{incolor}In [{\color{incolor}19}]:} \PY{c+c1}{\PYZsh{} concatenating \PYZsq{}salary\PYZus{}label\PYZsq{} column}
          \PY{n}{df\PYZus{}new} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{concat}\PY{p}{(}\PY{p}{[}\PY{n}{df}\PY{p}{,} \PY{n}{salary\PYZus{}label}\PY{p}{]}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{join}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{inner}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
 \end{Verbatim}
 
 
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}65}]:} \PY{c+c1}{\PYZsh{} adding the \PYZsq{}sales\PYZus{}label\PYZsq{} column}
+{\color{incolor}In [{\color{incolor}20}]:} \PY{c+c1}{\PYZsh{} adding the \PYZsq{}sales\PYZus{}label\PYZsq{} column}
          \PY{n}{df\PYZus{}new}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{sales\PYZus{}encoded}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{sales\PYZus{}label}
          \PY{n}{df\PYZus{}new}\PY{o}{.}\PY{n}{head}\PY{p}{(}\PY{p}{)}
 \end{Verbatim}
 
 
 \begin{Verbatim}[commandchars=\\\{\}]
-{\color{outcolor}Out[{\color{outcolor}65}]:}    satisfaction\_level  last\_evaluation  number\_project  average\_montly\_hours  \textbackslash{}
+{\color{outcolor}Out[{\color{outcolor}20}]:}    satisfaction\_level  last\_evaluation  number\_project  average\_montly\_hours  \textbackslash{}
          0                0.38             0.53               2                   157   
          1                0.80             0.86               5                   262   
          2                0.11             0.88               7                   272   
@@ -696,18 +716,18 @@ DataFrame}\label{concatenating-new-columns-to-the-original-dataframe}
 \end{Verbatim}
             
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}66}]:} \PY{c+c1}{\PYZsh{} Removing \PYZsq{}sales\PYZsq{} and \PYZsq{}salary\PYZsq{} columns (character fields removed and substituted for model purpose}
+{\color{incolor}In [{\color{incolor}21}]:} \PY{c+c1}{\PYZsh{} Removing \PYZsq{}sales\PYZsq{} and \PYZsq{}salary\PYZsq{} columns (character fields removed and substituted for model purpose}
          \PY{n}{df\PYZus{}new} \PY{o}{=} \PY{n}{df\PYZus{}new}\PY{o}{.}\PY{n}{drop}\PY{p}{(}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{sales}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{salary}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}
 \end{Verbatim}
 
 
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}67}]:} \PY{n}{df\PYZus{}new}\PY{o}{.}\PY{n}{head}\PY{p}{(}\PY{p}{)}
+{\color{incolor}In [{\color{incolor}22}]:} \PY{n}{df\PYZus{}new}\PY{o}{.}\PY{n}{head}\PY{p}{(}\PY{p}{)}
 \end{Verbatim}
 
 
 \begin{Verbatim}[commandchars=\\\{\}]
-{\color{outcolor}Out[{\color{outcolor}67}]:}    satisfaction\_level  last\_evaluation  number\_project  average\_montly\_hours  \textbackslash{}
+{\color{outcolor}Out[{\color{outcolor}22}]:}    satisfaction\_level  last\_evaluation  number\_project  average\_montly\_hours  \textbackslash{}
          0                0.38             0.53               2                   157   
          1                0.80             0.86               5                   262   
          2                0.11             0.88               7                   272   
@@ -730,7 +750,7 @@ DataFrame}\label{concatenating-new-columns-to-the-original-dataframe}
 \end{Verbatim}
             
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}69}]:} \PY{c+c1}{\PYZsh{} As you can see, all columns are clearly numerical}
+{\color{incolor}In [{\color{incolor}23}]:} \PY{c+c1}{\PYZsh{} As you can see, all columns are clearly numerical}
          \PY{n}{df\PYZus{}new}\PY{o}{.}\PY{n}{info}\PY{p}{(}\PY{p}{)}
 \end{Verbatim}
 
@@ -760,14 +780,14 @@ memory usage: 1.1 MB
 LABELS}\label{separating-features-and-labels}
 
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}71}]:} \PY{c+c1}{\PYZsh{} X = features}
+{\color{incolor}In [{\color{incolor}24}]:} \PY{c+c1}{\PYZsh{} X = features}
          \PY{n}{X} \PY{o}{=} \PY{n}{df\PYZus{}new}\PY{o}{.}\PY{n}{drop}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{left}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}
          \PY{n}{X}\PY{o}{.}\PY{n}{head}\PY{p}{(}\PY{p}{)}
 \end{Verbatim}
 
 
 \begin{Verbatim}[commandchars=\\\{\}]
-{\color{outcolor}Out[{\color{outcolor}71}]:}    satisfaction\_level  last\_evaluation  number\_project  average\_montly\_hours  \textbackslash{}
+{\color{outcolor}Out[{\color{outcolor}24}]:}    satisfaction\_level  last\_evaluation  number\_project  average\_montly\_hours  \textbackslash{}
          0                0.38             0.53               2                   157   
          1                0.80             0.86               5                   262   
          2                0.11             0.88               7                   272   
@@ -790,14 +810,14 @@ LABELS}\label{separating-features-and-labels}
 \end{Verbatim}
             
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}72}]:} \PY{c+c1}{\PYZsh{} Y = labels}
+{\color{incolor}In [{\color{incolor}25}]:} \PY{c+c1}{\PYZsh{} Y = labels}
          \PY{n}{Y} \PY{o}{=} \PY{n}{df\PYZus{}new}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{left}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
          \PY{n}{Y}\PY{o}{.}\PY{n}{head}\PY{p}{(}\PY{p}{)}
 \end{Verbatim}
 
 
 \begin{Verbatim}[commandchars=\\\{\}]
-{\color{outcolor}Out[{\color{outcolor}72}]:} 0    1
+{\color{outcolor}Out[{\color{outcolor}25}]:} 0    1
          1    1
          2    1
          3    1
@@ -807,44 +827,38 @@ LABELS}\label{separating-features-and-labels}
             
     \section{DATA VISUALIZATION}\label{data-visualization}
 
+    Accent, Accent\_r, Blues, Blues\_r, BrBG, BrBG\_r, BuGn, BuGn\_r, BuPu,
+BuPu\_r, CMRmap, CMRmap\_r, Dark2, Dark2\_r, GnBu, GnBu\_r, Greens,
+Greens\_r, Greys, Greys\_r, OrRd, OrRd\_r, Oranges, Oranges\_r, PRGn,
+PRGn\_r, Paired, Paired\_r, Pastel1, Pastel1\_r, Pastel2, Pastel2\_r,
+PiYG, PiYG\_r, PuBu, PuBuGn, PuBuGn\_r, PuBu\_r, PuOr, PuOr\_r, PuRd,
+PuRd\_r, Purples, Purples\_r, RdBu, RdBu\_r, RdGy, RdGy\_r, RdPu,
+RdPu\_r, RdYlBu, RdYlBu\_r, RdYlGn, RdYlGn\_r, Reds, Reds\_r, Set1,
+Set1\_r, Set2, Set2\_r, Set3, Set3\_r, Spectral, Spectral\_r, Wistia,
+Wistia\_r, YlGn, YlGnBu, YlGnBu\_r, YlGn\_r, YlOrBr, YlOrBr\_r, YlOrRd,
+YlOrRd\_r, afmhot, afmhot\_r, autumn, autumn\_r, binary, binary\_r,
+bone, bone\_r, brg, brg\_r, bwr, bwr\_r, cividis, cividis\_r, cool,
+cool\_r, coolwarm, coolwarm\_r, copper, copper\_r, cubehelix,
+cubehelix\_r, flag, flag\_r, gist\_earth, gist\_earth\_r, gist\_gray,
+gist\_gray\_r, gist\_heat, gist\_heat\_r, gist\_ncar, gist\_ncar\_r,
+gist\_rainbow, gist\_rainbow\_r, gist\_stern, gist\_stern\_r,
+gist\_yarg, gist\_yarg\_r, gnuplot, gnuplot2, gnuplot2\_r, gnuplot\_r,
+gray, gray\_r, hot, hot\_r, hsv, hsv\_r, icefire, icefire\_r, inferno,
+inferno\_r, jet, jet\_r, magma, magma\_r, mako, mako\_r, nipy\_spectral,
+nipy\_spectral\_r, ocean, ocean\_r, pink, pink\_r, plasma, plasma\_r,
+prism, prism\_r, rainbow, rainbow\_r, rocket, rocket\_r, seismic,
+seismic\_r, spring, spring\_r, summer, summer\_r, tab10, tab10\_r,
+tab20, tab20\_r, tab20b, tab20b\_r, tab20c, tab20c\_r, terrain,
+terrain\_r, viridis, viridis\_r, vlag, vlag\_r, winter, winter\_r
+
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}73}]:} \PY{c+c1}{\PYZsh{}\PYZsh{} Visualizing the whole dataset}
+{\color{incolor}In [{\color{incolor}26}]:} \PY{c+c1}{\PYZsh{}\PYZsh{} Visualizing the whole dataset}
          \PY{n}{sns}\PY{o}{.}\PY{n}{pairplot}\PY{p}{(}\PY{n}{df\PYZus{}new}\PY{p}{,} \PY{n}{hue}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{left}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
 \end{Verbatim}
 
 
 \begin{Verbatim}[commandchars=\\\{\}]
-{\color{outcolor}Out[{\color{outcolor}73}]:} <seaborn.axisgrid.PairGrid at 0x2191275c160>
-\end{Verbatim}
-            
-    \begin{center}
-    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_40_1.png}
-    \end{center}
-    { \hspace*{\fill} \\}
-    
-    \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}94}]:} \PY{c+c1}{\PYZsh{} Distribution of time spent in the company}
-         \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{n}{df\PYZus{}new}\PY{o}{.}\PY{n}{time\PYZus{}spend\PYZus{}company}\PY{o}{.}\PY{n}{groupby}\PY{p}{(}\PY{n}{by}\PY{o}{=}\PY{n}{df\PYZus{}new}\PY{o}{.}\PY{n}{time\PYZus{}spend\PYZus{}company}\PY{p}{)}\PY{o}{.}\PY{n}{count}\PY{p}{(}\PY{p}{)}\PY{p}{)}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{kind}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{bar}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{13}\PY{p}{,}\PY{l+m+mi}{6}\PY{p}{)}\PY{p}{,} \PY{n}{title}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Years spent in the Company}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
-\end{Verbatim}
-
-
-\begin{Verbatim}[commandchars=\\\{\}]
-{\color{outcolor}Out[{\color{outcolor}94}]:} <matplotlib.axes.\_subplots.AxesSubplot at 0x21920aa1ef0>
-\end{Verbatim}
-            
-    \begin{center}
-    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_41_1.png}
-    \end{center}
-    { \hspace*{\fill} \\}
-    
-    \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}96}]:} \PY{c+c1}{\PYZsh{} plotting the grouped unique values in the \PYZsq{}sales\PYZsq{} column}
-         \PY{n}{sales\PYZus{}grouped}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{kind}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{bar}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{15}\PY{p}{,}\PY{l+m+mi}{6}\PY{p}{)}\PY{p}{,} \PY{n}{title}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Count plot for all Departments}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
-\end{Verbatim}
-
-
-\begin{Verbatim}[commandchars=\\\{\}]
-{\color{outcolor}Out[{\color{outcolor}96}]:} <matplotlib.axes.\_subplots.AxesSubplot at 0x219213f8d68>
+{\color{outcolor}Out[{\color{outcolor}26}]:} <seaborn.axisgrid.PairGrid at 0x7fd1093dac88>
 \end{Verbatim}
             
     \begin{center}
@@ -853,17 +867,153 @@ LABELS}\label{separating-features-and-labels}
     { \hspace*{\fill} \\}
     
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}99}]:} \PY{c+c1}{\PYZsh{} plotting the grouped unique values in the \PYZsq{}salary\PYZsq{} column}
-         \PY{n}{salary\PYZus{}grouped}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{kind}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{bar}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{,}\PY{l+m+mi}{6}\PY{p}{)}\PY{p}{,} \PY{n}{title}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Frequency of all }\PY{l+s+s1}{\PYZdq{}}\PY{l+s+s1}{salary}\PY{l+s+s1}{\PYZdq{}}\PY{l+s+s1}{ categories}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+{\color{incolor}In [{\color{incolor}27}]:} \PY{c+c1}{\PYZsh{} Distribution of time spent in the company}
+         \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{n}{df\PYZus{}new}\PY{o}{.}\PY{n}{time\PYZus{}spend\PYZus{}company}\PY{o}{.}\PY{n}{groupby}\PY{p}{(}\PY{n}{by}\PY{o}{=}\PY{n}{df\PYZus{}new}\PY{o}{.}\PY{n}{time\PYZus{}spend\PYZus{}company}\PY{p}{)}\PY{o}{.}\PY{n}{count}\PY{p}{(}\PY{p}{)}\PY{p}{)}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{kind}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{bar}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{13}\PY{p}{,}\PY{l+m+mi}{6}\PY{p}{)}\PY{p}{,} \PY{n}{title}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Years spent in the Company}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{colormap}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{summer}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
 \end{Verbatim}
 
 
 \begin{Verbatim}[commandchars=\\\{\}]
-{\color{outcolor}Out[{\color{outcolor}99}]:} <matplotlib.axes.\_subplots.AxesSubplot at 0x21921a782e8>
+{\color{outcolor}Out[{\color{outcolor}27}]:} <matplotlib.axes.\_subplots.AxesSubplot at 0x7fd10338c630>
 \end{Verbatim}
             
     \begin{center}
     \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_43_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}28}]:} \PY{c+c1}{\PYZsh{} plotting the grouped unique values in the \PYZsq{}sales\PYZsq{} column}
+         \PY{n}{sales\PYZus{}grouped}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{kind}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{bar}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{15}\PY{p}{,}\PY{l+m+mi}{6}\PY{p}{)}\PY{p}{,} \PY{n}{title}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Count plot for all Departments}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{colormap}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{prism}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}28}]:} <matplotlib.axes.\_subplots.AxesSubplot at 0x7fd105521128>
+\end{Verbatim}
+            
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_44_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}29}]:} \PY{c+c1}{\PYZsh{} plotting the grouped unique values in the \PYZsq{}salary\PYZsq{} column}
+         \PY{n}{salary\PYZus{}grouped}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{kind}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{bar}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{,}\PY{l+m+mi}{6}\PY{p}{)}\PY{p}{,} \PY{n}{title}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Frequency of all }\PY{l+s+s1}{\PYZdq{}}\PY{l+s+s1}{salary}\PY{l+s+s1}{\PYZdq{}}\PY{l+s+s1}{ categories}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{colormap}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Greens\PYZus{}r}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}29}]:} <matplotlib.axes.\_subplots.AxesSubplot at 0x7fd10322f940>
+\end{Verbatim}
+            
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_45_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \subsection{Graphical Inferences}\label{graphical-inferences}
+
+    \begin{itemize}
+\tightlist
+\item
+  We can clearly see from the \textbf{violin plot} below that employees
+  categorized by their respective departments who produce lower
+  satisfaction levels have a higher tendency to leave the company.
+\item
+  The black line shows the average satisfaction level in the
+  organization.
+\end{itemize}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}30}]:} \PY{n}{fig}\PY{p}{,} \PY{n}{ax} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{subplots}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{16}\PY{p}{,}\PY{l+m+mi}{8}\PY{p}{)}\PY{p}{)}
+         \PY{n}{ax}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mi}{5}\PY{p}{,} \PY{l+m+mi}{250}\PY{p}{]}\PY{p}{,} \PY{p}{[}\PY{n}{df}\PY{o}{.}\PY{n}{last\PYZus{}evaluation}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)}\PY{p}{,}\PY{n}{df}\PY{o}{.}\PY{n}{satisfaction\PYZus{}level}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)}\PY{p}{]}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{k\PYZhy{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{lw}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{)}
+         \PY{n}{sns}\PY{o}{.}\PY{n}{violinplot}\PY{p}{(}\PY{n}{ax}\PY{o}{=}\PY{n}{ax}\PY{p}{,} \PY{n}{data}\PY{o}{=}\PY{n}{df}\PY{p}{,}\PY{n}{x}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{sales}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{y} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{satisfaction\PYZus{}level}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{pallete}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{muted}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{hue}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{left}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}30}]:} <matplotlib.axes.\_subplots.AxesSubplot at 0x7fd1007354a8>
+\end{Verbatim}
+            
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_48_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{itemize}
+\tightlist
+\item
+  We can clearly see from the \textbf{violin plot} below that employees
+  who left the organization tend to have extreme evalution scores( i.e.
+  extremely higher than average and extremely lower than average),
+  whereas employees who stayed had score near the mean evaluation score.
+\item
+  The black line shows the mean of the evaluation scores.
+\end{itemize}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}31}]:} \PY{n}{fig}\PY{p}{,} \PY{n}{ax} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{subplots}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{17}\PY{p}{,}\PY{l+m+mi}{8}\PY{p}{)}\PY{p}{)}
+         \PY{n}{ax}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mi}{5}\PY{p}{,} \PY{l+m+mi}{250}\PY{p}{]}\PY{p}{,} \PY{p}{[}\PY{n}{df}\PY{o}{.}\PY{n}{last\PYZus{}evaluation}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)}\PY{p}{,}\PY{n}{df}\PY{o}{.}\PY{n}{last\PYZus{}evaluation}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)}\PY{p}{]}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{k\PYZhy{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{lw}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{)}
+         \PY{n}{sns}\PY{o}{.}\PY{n}{violinplot}\PY{p}{(}\PY{n}{ax}\PY{o}{=}\PY{n}{ax}\PY{p}{,} \PY{n}{data}\PY{o}{=}\PY{n}{df}\PY{p}{,}\PY{n}{x}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{sales}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{y} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{last\PYZus{}evaluation}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{palette}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{hot\PYZus{}r}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{hue}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{left}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}31}]:} <matplotlib.axes.\_subplots.AxesSubplot at 0x7fd10064e4a8>
+\end{Verbatim}
+            
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_50_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{itemize}
+\tightlist
+\item
+  We can clearly see from the \textbf{box plot} below that employees
+  with 'low' salary have slightly lower satisfaction levels than
+  employees with 'medium' or 'high' range salaries.
+\end{itemize}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}32}]:} \PY{n}{fig}\PY{p}{,} \PY{n}{ax} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{subplots}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{5}\PY{p}{,}\PY{l+m+mi}{10}\PY{p}{)}\PY{p}{)}
+         \PY{n}{sns}\PY{o}{.}\PY{n}{boxplot}\PY{p}{(}\PY{n}{ax}\PY{o}{=}\PY{n}{ax}\PY{p}{,} \PY{n}{data}\PY{o}{=}\PY{n}{df}\PY{p}{,}\PY{n}{x}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{salary}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{y} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{satisfaction\PYZus{}level}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{palette}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{deep}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}32}]:} <matplotlib.axes.\_subplots.AxesSubplot at 0x7fd10063a828>
+\end{Verbatim}
+            
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_52_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{itemize}
+\tightlist
+\item
+  We can clearly see from the \textbf{box plot} below that employees who
+  had spent more number of years in the Organization had a higher
+  tendency of leaving the Organization.
+\end{itemize}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}33}]:} \PY{n}{fig}\PY{p}{,} \PY{n}{ax} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{subplots}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{5}\PY{p}{,}\PY{l+m+mi}{7}\PY{p}{)}\PY{p}{)}
+         \PY{c+c1}{\PYZsh{} line showing mean of time\PYZus{}spend\PYZus{}company}
+         \PY{n}{ax}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mi}{5}\PY{p}{,} \PY{l+m+mi}{250}\PY{p}{]}\PY{p}{,}
+                 \PY{p}{[}\PY{n}{df}\PY{o}{.}\PY{n}{time\PYZus{}spend\PYZus{}company}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)}\PY{p}{,}\PY{n}{df}\PY{o}{.}\PY{n}{time\PYZus{}spend\PYZus{}company}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)}\PY{p}{]}\PY{p}{,}
+                 \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{k\PYZhy{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{lw}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{)} 
+         \PY{n}{sns}\PY{o}{.}\PY{n}{boxplot}\PY{p}{(}\PY{n}{ax}\PY{o}{=}\PY{n}{ax}\PY{p}{,} \PY{n}{data}\PY{o}{=}\PY{n}{df}\PY{p}{,}\PY{n}{y}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{time\PYZus{}spend\PYZus{}company}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{x} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{left}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{palette}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{cool}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}33}]:} <matplotlib.axes.\_subplots.AxesSubplot at 0x7fd1004b3400>
+\end{Verbatim}
+            
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_54_1.png}
     \end{center}
     { \hspace*{\fill} \\}
     
@@ -880,9 +1030,6 @@ LABELS}\label{separating-features-and-labels}
   In data processing, it is also known as data normalization and is
   generally performed during the data preprocessing step.
 \end{itemize}
-
-Mean Normalization \#\#\#
-\[x' = \frac{x - \text{mean}(x)}{\text{max}(x)-\text{min}(x)}\]
 
     \subsubsection{Standard Scaler}\label{standard-scaler}
 
@@ -908,236 +1055,256 @@ Gaussian with 0 mean and unit variance).
 where \({\sigma}\) is standard deviation and \(\bar{x}\) is mean.
 
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}102}]:} \PY{c+c1}{\PYZsh{} Scaling the data (for faster training)}
-          \PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{preprocessing} \PY{k}{import} \PY{n}{StandardScaler}
+{\color{incolor}In [{\color{incolor}34}]:} \PY{c+c1}{\PYZsh{} Scaling the data (for faster training)}
+         \PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{preprocessing} \PY{k}{import} \PY{n}{StandardScaler}
 \end{Verbatim}
 
 
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}104}]:} \PY{c+c1}{\PYZsh{} initializing StandardScaler}
-          \PY{n}{scalar} \PY{o}{=} \PY{n}{StandardScaler}\PY{p}{(}\PY{p}{)}
+{\color{incolor}In [{\color{incolor}35}]:} \PY{c+c1}{\PYZsh{} initializing StandardScaler}
+         \PY{n}{scalar} \PY{o}{=} \PY{n}{StandardScaler}\PY{p}{(}\PY{p}{)}
 \end{Verbatim}
 
 
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}105}]:} \PY{c+c1}{\PYZsh{} transforming the data}
-          \PY{n}{X\PYZus{}normalized} \PY{o}{=} \PY{n}{scalar}\PY{o}{.}\PY{n}{fit\PYZus{}transform}\PY{p}{(}\PY{n}{X}\PY{p}{)}
-          \PY{n}{X\PYZus{}normalized}
+{\color{incolor}In [{\color{incolor}36}]:} \PY{c+c1}{\PYZsh{} transforming the data}
+         \PY{n}{X\PYZus{}normalized} \PY{o}{=} \PY{n}{scalar}\PY{o}{.}\PY{n}{fit\PYZus{}transform}\PY{p}{(}\PY{n}{X}\PY{p}{)}
+         \PY{n}{X\PYZus{}normalized}
 \end{Verbatim}
 
 
 \begin{Verbatim}[commandchars=\\\{\}]
-{\color{outcolor}Out[{\color{outcolor}105}]:} array([[-0.93649469, -1.08727529, -1.46286291, {\ldots},  1.02477511,
-                  -0.8681323 ,  0.39372503],
-                 [ 0.75281433,  0.84070693,  0.97111292, {\ldots}, -0.97582386,
-                   1.15189816,  0.39372503],
-                 [-2.02247906,  0.95755433,  2.59376348, {\ldots}, -0.97582386,
-                   1.15189816,  0.39372503],
-                 {\ldots}, 
-                 [-0.97671633, -1.08727529, -1.46286291, {\ldots},  1.02477511,
-                  -0.8681323 ,  0.74231612],
-                 [-2.02247906,  1.42494396,  1.7824382 , {\ldots},  1.02477511,
-                  -0.8681323 ,  0.74231612],
-                 [-0.97671633, -1.14569899, -1.46286291, {\ldots},  1.02477511,
-                  -0.8681323 ,  0.74231612]])
+{\color{outcolor}Out[{\color{outcolor}36}]:} array([[-0.93649469, -1.08727529, -1.46286291, {\ldots},  1.02477511,
+                 -0.8681323 ,  0.39372503],
+                [ 0.75281433,  0.84070693,  0.97111292, {\ldots}, -0.97582386,
+                  1.15189816,  0.39372503],
+                [-2.02247906,  0.95755433,  2.59376348, {\ldots}, -0.97582386,
+                  1.15189816,  0.39372503],
+                {\ldots},
+                [-0.97671633, -1.08727529, -1.46286291, {\ldots},  1.02477511,
+                 -0.8681323 ,  0.74231612],
+                [-2.02247906,  1.42494396,  1.7824382 , {\ldots},  1.02477511,
+                 -0.8681323 ,  0.74231612],
+                [-0.97671633, -1.14569899, -1.46286291, {\ldots},  1.02477511,
+                 -0.8681323 ,  0.74231612]])
 \end{Verbatim}
             
     \section{Training and
 Cross-Validation}\label{training-and-cross-validation}
 
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}106}]:} \PY{c+c1}{\PYZsh{} train\PYZhy{}test split}
-          \PY{c+c1}{\PYZsh{} ideal test size is 30\PYZpc{}}
-          \PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{model\PYZus{}selection} \PY{k}{import} \PY{n}{train\PYZus{}test\PYZus{}split}
-          
-          \PY{n}{x\PYZus{}train}\PY{p}{,} \PY{n}{x\PYZus{}test}\PY{p}{,} \PY{n}{y\PYZus{}train}\PY{p}{,} \PY{n}{y\PYZus{}test} \PY{o}{=} \PY{n}{train\PYZus{}test\PYZus{}split}\PY{p}{(}\PY{n}{X}\PY{p}{,} \PY{n}{Y}\PY{p}{,} \PY{n}{test\PYZus{}size}\PY{o}{=}\PY{l+m+mf}{0.3}\PY{p}{,} \PY{n}{random\PYZus{}state}\PY{o}{=}\PY{l+m+mi}{101}\PY{p}{)}
+{\color{incolor}In [{\color{incolor}37}]:} \PY{c+c1}{\PYZsh{} train\PYZhy{}test split}
+         \PY{c+c1}{\PYZsh{} ideal test size is 30\PYZpc{}}
+         \PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{model\PYZus{}selection} \PY{k}{import} \PY{n}{train\PYZus{}test\PYZus{}split}
+         
+         \PY{n}{x\PYZus{}train}\PY{p}{,} \PY{n}{x\PYZus{}test}\PY{p}{,} \PY{n}{y\PYZus{}train}\PY{p}{,} \PY{n}{y\PYZus{}test} \PY{o}{=} \PY{n}{train\PYZus{}test\PYZus{}split}\PY{p}{(}\PY{n}{X}\PY{p}{,} \PY{n}{Y}\PY{p}{,} \PY{n}{test\PYZus{}size}\PY{o}{=}\PY{l+m+mf}{0.3}\PY{p}{,} \PY{n}{random\PYZus{}state}\PY{o}{=}\PY{l+m+mi}{101}\PY{p}{)}
 \end{Verbatim}
 
 
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}107}]:} \PY{c+c1}{\PYZsh{} shape of the training features}
-          \PY{n}{x\PYZus{}train}\PY{o}{.}\PY{n}{shape}
+{\color{incolor}In [{\color{incolor}38}]:} \PY{c+c1}{\PYZsh{} shape of the training features}
+         \PY{n}{x\PYZus{}train}\PY{o}{.}\PY{n}{shape}
 \end{Verbatim}
 
 
 \begin{Verbatim}[commandchars=\\\{\}]
-{\color{outcolor}Out[{\color{outcolor}107}]:} (10499, 11)
+{\color{outcolor}Out[{\color{outcolor}38}]:} (10499, 11)
 \end{Verbatim}
             
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}108}]:} \PY{c+c1}{\PYZsh{} shape of the training labels}
-          \PY{n}{y\PYZus{}train}\PY{o}{.}\PY{n}{shape}
+{\color{incolor}In [{\color{incolor}39}]:} \PY{c+c1}{\PYZsh{} shape of the training labels}
+         \PY{n}{y\PYZus{}train}\PY{o}{.}\PY{n}{shape}
 \end{Verbatim}
 
 
 \begin{Verbatim}[commandchars=\\\{\}]
-{\color{outcolor}Out[{\color{outcolor}108}]:} (10499,)
+{\color{outcolor}Out[{\color{outcolor}39}]:} (10499,)
 \end{Verbatim}
             
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}109}]:} \PY{c+c1}{\PYZsh{} shape of the testing features}
-          \PY{n}{x\PYZus{}test}\PY{o}{.}\PY{n}{shape}
+{\color{incolor}In [{\color{incolor}40}]:} \PY{c+c1}{\PYZsh{} shape of the testing features}
+         \PY{n}{x\PYZus{}test}\PY{o}{.}\PY{n}{shape}
 \end{Verbatim}
 
 
 \begin{Verbatim}[commandchars=\\\{\}]
-{\color{outcolor}Out[{\color{outcolor}109}]:} (4500, 11)
+{\color{outcolor}Out[{\color{outcolor}40}]:} (4500, 11)
 \end{Verbatim}
             
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}110}]:} \PY{c+c1}{\PYZsh{} shape of the testing labels}
-          \PY{n}{y\PYZus{}test}\PY{o}{.}\PY{n}{shape}
+{\color{incolor}In [{\color{incolor}41}]:} \PY{c+c1}{\PYZsh{} shape of the testing labels}
+         \PY{n}{y\PYZus{}test}\PY{o}{.}\PY{n}{shape}
 \end{Verbatim}
 
 
 \begin{Verbatim}[commandchars=\\\{\}]
-{\color{outcolor}Out[{\color{outcolor}110}]:} (4500,)
+{\color{outcolor}Out[{\color{outcolor}41}]:} (4500,)
 \end{Verbatim}
             
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}111}]:} \PY{c+c1}{\PYZsh{} importing models}
-          \PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{linear\PYZus{}model} \PY{k}{import} \PY{n}{LogisticRegression}
-          \PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{neighbors} \PY{k}{import} \PY{n}{KNeighborsClassifier}
-          \PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{svm} \PY{k}{import} \PY{n}{SVC}
-          \PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{tree} \PY{k}{import} \PY{n}{DecisionTreeClassifier}
-          \PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{ensemble} \PY{k}{import} \PY{n}{RandomForestClassifier}\PY{p}{,} \PY{n}{AdaBoostClassifier}
-          \PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{naive\PYZus{}bayes} \PY{k}{import} \PY{n}{GaussianNB}
-          \PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{discriminant\PYZus{}analysis} \PY{k}{import} \PY{n}{QuadraticDiscriminantAnalysis}
-          \PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{discriminant\PYZus{}analysis} \PY{k}{import} \PY{n}{LinearDiscriminantAnalysis}
+{\color{incolor}In [{\color{incolor}42}]:} \PY{c+c1}{\PYZsh{} importing models}
+         \PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{linear\PYZus{}model} \PY{k}{import} \PY{n}{LogisticRegression}
+         \PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{neighbors} \PY{k}{import} \PY{n}{KNeighborsClassifier}
+         \PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{svm} \PY{k}{import} \PY{n}{SVC}
+         \PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{tree} \PY{k}{import} \PY{n}{DecisionTreeClassifier}
+         \PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{ensemble} \PY{k}{import} \PY{n}{RandomForestClassifier}\PY{p}{,} \PY{n}{AdaBoostClassifier}
+         \PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{naive\PYZus{}bayes} \PY{k}{import} \PY{n}{GaussianNB}
+         \PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{discriminant\PYZus{}analysis} \PY{k}{import} \PY{n}{QuadraticDiscriminantAnalysis}
+         \PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{discriminant\PYZus{}analysis} \PY{k}{import} \PY{n}{LinearDiscriminantAnalysis}
 \end{Verbatim}
 
 
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}112}]:} \PY{c+c1}{\PYZsh{} initializing all the models}
-          \PY{n}{models} \PY{o}{=} \PY{p}{[}\PY{p}{]}
-          \PY{n}{models}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{LR}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{LogisticRegression}\PY{p}{(}\PY{p}{)}\PY{p}{]}\PY{p}{)}
-          \PY{n}{models}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{KNN}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{KNeighborsClassifier}\PY{p}{(}\PY{p}{)}\PY{p}{]}\PY{p}{)}
-          \PY{n}{models}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{SVM}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{SVC}\PY{p}{(}\PY{p}{)}\PY{p}{]}\PY{p}{)}
-          \PY{n}{models}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DT}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{DecisionTreeClassifier}\PY{p}{(}\PY{p}{)}\PY{p}{]}\PY{p}{)}
-          \PY{n}{models}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{RF}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{RandomForestClassifier}\PY{p}{(}\PY{p}{)}\PY{p}{]}\PY{p}{)}
-          \PY{n}{models}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{AB}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{AdaBoostClassifier}\PY{p}{(}\PY{p}{)}\PY{p}{]}\PY{p}{)}
-          \PY{n}{models}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{GNB}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{GaussianNB}\PY{p}{(}\PY{p}{)}\PY{p}{]}\PY{p}{)}
-          \PY{n}{models}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{QDA}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{QuadraticDiscriminantAnalysis}\PY{p}{(}\PY{p}{)}\PY{p}{]}\PY{p}{)}
-          \PY{n}{models}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{LDA}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{LinearDiscriminantAnalysis}\PY{p}{(}\PY{p}{)}\PY{p}{]}\PY{p}{)}
+{\color{incolor}In [{\color{incolor}43}]:} \PY{c+c1}{\PYZsh{} initializing all the models}
+         \PY{n}{models} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+         \PY{n}{models}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{LR}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{LogisticRegression}\PY{p}{(}\PY{p}{)}\PY{p}{]}\PY{p}{)}
+         \PY{n}{models}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{KNN}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{KNeighborsClassifier}\PY{p}{(}\PY{p}{)}\PY{p}{]}\PY{p}{)}
+         \PY{n}{models}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{SVM}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{SVC}\PY{p}{(}\PY{p}{)}\PY{p}{]}\PY{p}{)}
+         \PY{n}{models}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DT}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{DecisionTreeClassifier}\PY{p}{(}\PY{p}{)}\PY{p}{]}\PY{p}{)}
+         \PY{n}{models}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{RF}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{RandomForestClassifier}\PY{p}{(}\PY{p}{)}\PY{p}{]}\PY{p}{)}
+         \PY{n}{models}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{AB}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{AdaBoostClassifier}\PY{p}{(}\PY{p}{)}\PY{p}{]}\PY{p}{)}
+         \PY{n}{models}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{GNB}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{GaussianNB}\PY{p}{(}\PY{p}{)}\PY{p}{]}\PY{p}{)}
+         \PY{n}{models}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{QDA}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{QuadraticDiscriminantAnalysis}\PY{p}{(}\PY{p}{)}\PY{p}{]}\PY{p}{)}
+         \PY{n}{models}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{LDA}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{LinearDiscriminantAnalysis}\PY{p}{(}\PY{p}{)}\PY{p}{]}\PY{p}{)}
 \end{Verbatim}
 
 
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}113}]:} \PY{n+nb}{len}\PY{p}{(}\PY{n}{models}\PY{p}{)}
+{\color{incolor}In [{\color{incolor}44}]:} \PY{n+nb}{len}\PY{p}{(}\PY{n}{models}\PY{p}{)}
 \end{Verbatim}
 
 
 \begin{Verbatim}[commandchars=\\\{\}]
-{\color{outcolor}Out[{\color{outcolor}113}]:} 9
+{\color{outcolor}Out[{\color{outcolor}44}]:} 9
 \end{Verbatim}
             
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}114}]:} \PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{cross\PYZus{}validation} \PY{k}{import} \PY{n}{KFold}
-          \PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{model\PYZus{}selection} \PY{k}{import} \PY{n}{cross\PYZus{}val\PYZus{}score}
-          \PY{n}{kfold} \PY{o}{=} \PY{n}{KFold}\PY{p}{(}\PY{l+m+mi}{1000}\PY{p}{,} \PY{n}{n\PYZus{}folds}\PY{o}{=}\PY{l+m+mi}{10}\PY{p}{)}
+{\color{incolor}In [{\color{incolor}45}]:} \PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{cross\PYZus{}validation} \PY{k}{import} \PY{n}{KFold}
+         \PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{model\PYZus{}selection} \PY{k}{import} \PY{n}{cross\PYZus{}val\PYZus{}score}
+         \PY{n}{kfold} \PY{o}{=} \PY{n}{KFold}\PY{p}{(}\PY{l+m+mi}{1000}\PY{p}{,} \PY{n}{n\PYZus{}folds}\PY{o}{=}\PY{l+m+mi}{10}\PY{p}{)}
 \end{Verbatim}
 
 
     \begin{Verbatim}[commandchars=\\\{\}]
-C:\textbackslash{}Users\textbackslash{}shashwat\textbackslash{}Anaconda3\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}sklearn\textbackslash{}cross\_validation.py:41: DeprecationWarning: This module was deprecated in version 0.18 in favor of the model\_selection module into which all the refactored classes and functions are moved. Also note that the interface of the new CV iterators are different from that of this module. This module will be removed in 0.20.
+/home/shashwat/anaconda3/lib/python3.6/site-packages/sklearn/cross\_validation.py:41: DeprecationWarning: This module was deprecated in version 0.18 in favor of the model\_selection module into which all the refactored classes and functions are moved. Also note that the interface of the new CV iterators are different from that of this module. This module will be removed in 0.20.
   "This module will be removed in 0.20.", DeprecationWarning)
 
     \end{Verbatim}
 
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}116}]:} \PY{n}{results} \PY{o}{=} \PY{p}{[}\PY{p}{]}
-          \PY{n}{names} \PY{o}{=} \PY{p}{[}\PY{p}{]}
-          \PY{k}{for} \PY{n}{name}\PY{p}{,} \PY{n}{model} \PY{o+ow}{in} \PY{n}{models}\PY{p}{:}
-              \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{training...}\PY{l+s+s1}{\PYZsq{}} \PY{o}{+} \PY{n}{name}\PY{p}{)}
-              \PY{n}{scores} \PY{o}{=} \PY{n}{cross\PYZus{}val\PYZus{}score}\PY{p}{(}\PY{n}{model}\PY{p}{,} \PY{n}{x\PYZus{}train}\PY{p}{,} \PY{n}{y\PYZus{}train}\PY{p}{,} \PY{n}{cv}\PY{o}{=}\PY{n}{kfold}\PY{p}{,} \PY{n}{scoring}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{accuracy}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
-              \PY{n}{names}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{name}\PY{p}{)}
-              \PY{n}{results}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{p}{[} \PY{n}{np}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{n}{scores}\PY{p}{)}\PY{p}{,} \PY{n}{np}\PY{o}{.}\PY{n}{std}\PY{p}{(}\PY{n}{scores}\PY{p}{)}\PY{p}{]}\PY{p}{)}
-              \PY{n+nb}{print}\PY{p}{(}\PY{n}{name} \PY{o}{+} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ accuracy(mean):}\PY{l+s+s1}{\PYZsq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{n}{scores}\PY{p}{)}\PY{p}{)}\PY{p}{)}
-              \PY{n+nb}{print}\PY{p}{(}\PY{n}{name} \PY{o}{+} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ accuracy(std):}\PY{l+s+s1}{\PYZsq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{std}\PY{p}{(}\PY{n}{scores}\PY{p}{)}\PY{p}{)}\PY{p}{)}
-              \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{.......................................}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+{\color{incolor}In [{\color{incolor}46}]:} \PY{n}{results} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+         \PY{n}{names} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+         \PY{k}{for} \PY{n}{name}\PY{p}{,} \PY{n}{model} \PY{o+ow}{in} \PY{n}{models}\PY{p}{:}
+             \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{training...}\PY{l+s+s1}{\PYZsq{}} \PY{o}{+} \PY{n}{name}\PY{p}{)}
+             \PY{n}{scores} \PY{o}{=} \PY{n}{cross\PYZus{}val\PYZus{}score}\PY{p}{(}\PY{n}{model}\PY{p}{,} \PY{n}{x\PYZus{}train}\PY{p}{,} \PY{n}{y\PYZus{}train}\PY{p}{,} \PY{n}{cv}\PY{o}{=}\PY{n}{kfold}\PY{p}{,} \PY{n}{scoring}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{accuracy}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+             \PY{n}{names}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{name}\PY{p}{)}
+             \PY{n}{results}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{p}{[} \PY{n}{np}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{n}{scores}\PY{p}{)}\PY{p}{,} \PY{n}{np}\PY{o}{.}\PY{n}{std}\PY{p}{(}\PY{n}{scores}\PY{p}{)}\PY{p}{]}\PY{p}{)}
+             \PY{n+nb}{print}\PY{p}{(}\PY{n}{name} \PY{o}{+} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ accuracy(mean):}\PY{l+s+s1}{\PYZsq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{n}{scores}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+             \PY{n+nb}{print}\PY{p}{(}\PY{n}{name} \PY{o}{+} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ accuracy(std):}\PY{l+s+s1}{\PYZsq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{std}\PY{p}{(}\PY{n}{scores}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+             \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{.......................................}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
 \end{Verbatim}
 
 
     \begin{Verbatim}[commandchars=\\\{\}]
 training{\ldots}LR
 LR accuracy(mean):0.781
-LR accuracy(std):0.029478805946
+LR accuracy(std):0.02947880594596736
 {\ldots}
 training{\ldots}KNN
-KNN accuracy(mean):0.879
-KNN accuracy(std):0.0406078810085
+KNN accuracy(mean):0.8789999999999999
+KNN accuracy(std):0.040607881008493926
 {\ldots}
 training{\ldots}SVM
-SVM accuracy(mean):0.904
-SVM accuracy(std):0.0429418211072
+SVM accuracy(mean):0.9040000000000001
+SVM accuracy(std):0.04294182110716779
 {\ldots}
 training{\ldots}DT
-DT accuracy(mean):0.95
-DT accuracy(std):0.0209761769634
+DT accuracy(mean):0.9549999999999998
+DT accuracy(std):0.018574175621006706
 {\ldots}
 training{\ldots}RF
-RF accuracy(mean):0.972
-RF accuracy(std):0.0188679622641
+RF accuracy(mean):0.9730000000000001
+RF accuracy(std):0.0161554944214035
 {\ldots}
 training{\ldots}AB
-AB accuracy(mean):0.948
-AB accuracy(std):0.0153622914957
+AB accuracy(mean):0.9480000000000001
+AB accuracy(std):0.015362291495737196
 {\ldots}
 training{\ldots}GNB
 GNB accuracy(mean):0.688
-GNB accuracy(std):0.0975499871861
+GNB accuracy(std):0.09754998718605759
 {\ldots}
 training{\ldots}QDA
-QDA accuracy(mean):0.642
-QDA accuracy(std):0.180875647891
+QDA accuracy(mean):0.7619999999999999
+QDA accuracy(std):0.10943491216243564
 {\ldots}
 training{\ldots}LDA
-LDA accuracy(mean):0.781
-LDA accuracy(std):0.0284429253067
+LDA accuracy(mean):0.7809999999999999
+LDA accuracy(std):0.028442925306655785
 {\ldots}
 
     \end{Verbatim}
 
     \begin{Verbatim}[commandchars=\\\{\}]
-C:\textbackslash{}Users\textbackslash{}shashwat\textbackslash{}Anaconda3\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}sklearn\textbackslash{}discriminant\_analysis.py:682: UserWarning: Variables are collinear
+/home/shashwat/anaconda3/lib/python3.6/site-packages/sklearn/discriminant\_analysis.py:682: UserWarning: Variables are collinear
   warnings.warn("Variables are collinear")
-C:\textbackslash{}Users\textbackslash{}shashwat\textbackslash{}Anaconda3\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}sklearn\textbackslash{}discriminant\_analysis.py:682: UserWarning: Variables are collinear
+/home/shashwat/anaconda3/lib/python3.6/site-packages/sklearn/discriminant\_analysis.py:682: UserWarning: Variables are collinear
   warnings.warn("Variables are collinear")
-C:\textbackslash{}Users\textbackslash{}shashwat\textbackslash{}Anaconda3\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}sklearn\textbackslash{}discriminant\_analysis.py:682: UserWarning: Variables are collinear
+/home/shashwat/anaconda3/lib/python3.6/site-packages/sklearn/discriminant\_analysis.py:682: UserWarning: Variables are collinear
   warnings.warn("Variables are collinear")
-C:\textbackslash{}Users\textbackslash{}shashwat\textbackslash{}Anaconda3\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}sklearn\textbackslash{}discriminant\_analysis.py:682: UserWarning: Variables are collinear
+/home/shashwat/anaconda3/lib/python3.6/site-packages/sklearn/discriminant\_analysis.py:682: UserWarning: Variables are collinear
   warnings.warn("Variables are collinear")
-C:\textbackslash{}Users\textbackslash{}shashwat\textbackslash{}Anaconda3\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}sklearn\textbackslash{}discriminant\_analysis.py:682: UserWarning: Variables are collinear
+/home/shashwat/anaconda3/lib/python3.6/site-packages/sklearn/discriminant\_analysis.py:682: UserWarning: Variables are collinear
   warnings.warn("Variables are collinear")
-C:\textbackslash{}Users\textbackslash{}shashwat\textbackslash{}Anaconda3\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}sklearn\textbackslash{}discriminant\_analysis.py:682: UserWarning: Variables are collinear
+/home/shashwat/anaconda3/lib/python3.6/site-packages/sklearn/discriminant\_analysis.py:682: UserWarning: Variables are collinear
   warnings.warn("Variables are collinear")
-C:\textbackslash{}Users\textbackslash{}shashwat\textbackslash{}Anaconda3\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}sklearn\textbackslash{}discriminant\_analysis.py:682: UserWarning: Variables are collinear
+/home/shashwat/anaconda3/lib/python3.6/site-packages/sklearn/discriminant\_analysis.py:682: UserWarning: Variables are collinear
   warnings.warn("Variables are collinear")
-C:\textbackslash{}Users\textbackslash{}shashwat\textbackslash{}Anaconda3\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}sklearn\textbackslash{}discriminant\_analysis.py:682: UserWarning: Variables are collinear
+/home/shashwat/anaconda3/lib/python3.6/site-packages/sklearn/discriminant\_analysis.py:682: UserWarning: Variables are collinear
   warnings.warn("Variables are collinear")
-C:\textbackslash{}Users\textbackslash{}shashwat\textbackslash{}Anaconda3\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}sklearn\textbackslash{}discriminant\_analysis.py:682: UserWarning: Variables are collinear
+/home/shashwat/anaconda3/lib/python3.6/site-packages/sklearn/discriminant\_analysis.py:682: UserWarning: Variables are collinear
   warnings.warn("Variables are collinear")
-C:\textbackslash{}Users\textbackslash{}shashwat\textbackslash{}Anaconda3\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}sklearn\textbackslash{}discriminant\_analysis.py:682: UserWarning: Variables are collinear
+/home/shashwat/anaconda3/lib/python3.6/site-packages/sklearn/discriminant\_analysis.py:682: UserWarning: Variables are collinear
   warnings.warn("Variables are collinear")
-C:\textbackslash{}Users\textbackslash{}shashwat\textbackslash{}Anaconda3\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}sklearn\textbackslash{}discriminant\_analysis.py:388: UserWarning: Variables are collinear.
+/home/shashwat/anaconda3/lib/python3.6/site-packages/sklearn/discriminant\_analysis.py:682: UserWarning: Variables are collinear
+  warnings.warn("Variables are collinear")
+/home/shashwat/anaconda3/lib/python3.6/site-packages/sklearn/discriminant\_analysis.py:682: UserWarning: Variables are collinear
+  warnings.warn("Variables are collinear")
+/home/shashwat/anaconda3/lib/python3.6/site-packages/sklearn/discriminant\_analysis.py:682: UserWarning: Variables are collinear
+  warnings.warn("Variables are collinear")
+/home/shashwat/anaconda3/lib/python3.6/site-packages/sklearn/discriminant\_analysis.py:682: UserWarning: Variables are collinear
+  warnings.warn("Variables are collinear")
+/home/shashwat/anaconda3/lib/python3.6/site-packages/sklearn/discriminant\_analysis.py:682: UserWarning: Variables are collinear
+  warnings.warn("Variables are collinear")
+/home/shashwat/anaconda3/lib/python3.6/site-packages/sklearn/discriminant\_analysis.py:682: UserWarning: Variables are collinear
+  warnings.warn("Variables are collinear")
+/home/shashwat/anaconda3/lib/python3.6/site-packages/sklearn/discriminant\_analysis.py:682: UserWarning: Variables are collinear
+  warnings.warn("Variables are collinear")
+/home/shashwat/anaconda3/lib/python3.6/site-packages/sklearn/discriminant\_analysis.py:682: UserWarning: Variables are collinear
+  warnings.warn("Variables are collinear")
+/home/shashwat/anaconda3/lib/python3.6/site-packages/sklearn/discriminant\_analysis.py:682: UserWarning: Variables are collinear
+  warnings.warn("Variables are collinear")
+/home/shashwat/anaconda3/lib/python3.6/site-packages/sklearn/discriminant\_analysis.py:682: UserWarning: Variables are collinear
+  warnings.warn("Variables are collinear")
+/home/shashwat/anaconda3/lib/python3.6/site-packages/sklearn/discriminant\_analysis.py:388: UserWarning: Variables are collinear.
   warnings.warn("Variables are collinear.")
-C:\textbackslash{}Users\textbackslash{}shashwat\textbackslash{}Anaconda3\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}sklearn\textbackslash{}discriminant\_analysis.py:388: UserWarning: Variables are collinear.
+/home/shashwat/anaconda3/lib/python3.6/site-packages/sklearn/discriminant\_analysis.py:388: UserWarning: Variables are collinear.
   warnings.warn("Variables are collinear.")
-C:\textbackslash{}Users\textbackslash{}shashwat\textbackslash{}Anaconda3\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}sklearn\textbackslash{}discriminant\_analysis.py:388: UserWarning: Variables are collinear.
+/home/shashwat/anaconda3/lib/python3.6/site-packages/sklearn/discriminant\_analysis.py:388: UserWarning: Variables are collinear.
   warnings.warn("Variables are collinear.")
-C:\textbackslash{}Users\textbackslash{}shashwat\textbackslash{}Anaconda3\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}sklearn\textbackslash{}discriminant\_analysis.py:388: UserWarning: Variables are collinear.
+/home/shashwat/anaconda3/lib/python3.6/site-packages/sklearn/discriminant\_analysis.py:388: UserWarning: Variables are collinear.
   warnings.warn("Variables are collinear.")
-C:\textbackslash{}Users\textbackslash{}shashwat\textbackslash{}Anaconda3\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}sklearn\textbackslash{}discriminant\_analysis.py:388: UserWarning: Variables are collinear.
+/home/shashwat/anaconda3/lib/python3.6/site-packages/sklearn/discriminant\_analysis.py:388: UserWarning: Variables are collinear.
   warnings.warn("Variables are collinear.")
-C:\textbackslash{}Users\textbackslash{}shashwat\textbackslash{}Anaconda3\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}sklearn\textbackslash{}discriminant\_analysis.py:388: UserWarning: Variables are collinear.
+/home/shashwat/anaconda3/lib/python3.6/site-packages/sklearn/discriminant\_analysis.py:388: UserWarning: Variables are collinear.
   warnings.warn("Variables are collinear.")
-C:\textbackslash{}Users\textbackslash{}shashwat\textbackslash{}Anaconda3\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}sklearn\textbackslash{}discriminant\_analysis.py:388: UserWarning: Variables are collinear.
+/home/shashwat/anaconda3/lib/python3.6/site-packages/sklearn/discriminant\_analysis.py:388: UserWarning: Variables are collinear.
   warnings.warn("Variables are collinear.")
-C:\textbackslash{}Users\textbackslash{}shashwat\textbackslash{}Anaconda3\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}sklearn\textbackslash{}discriminant\_analysis.py:388: UserWarning: Variables are collinear.
+/home/shashwat/anaconda3/lib/python3.6/site-packages/sklearn/discriminant\_analysis.py:388: UserWarning: Variables are collinear.
   warnings.warn("Variables are collinear.")
-C:\textbackslash{}Users\textbackslash{}shashwat\textbackslash{}Anaconda3\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}sklearn\textbackslash{}discriminant\_analysis.py:388: UserWarning: Variables are collinear.
+/home/shashwat/anaconda3/lib/python3.6/site-packages/sklearn/discriminant\_analysis.py:388: UserWarning: Variables are collinear.
   warnings.warn("Variables are collinear.")
-C:\textbackslash{}Users\textbackslash{}shashwat\textbackslash{}Anaconda3\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}sklearn\textbackslash{}discriminant\_analysis.py:388: UserWarning: Variables are collinear.
+/home/shashwat/anaconda3/lib/python3.6/site-packages/sklearn/discriminant\_analysis.py:388: UserWarning: Variables are collinear.
   warnings.warn("Variables are collinear.")
 
     \end{Verbatim}
@@ -1145,69 +1312,74 @@ C:\textbackslash{}Users\textbackslash{}shashwat\textbackslash{}Anaconda3\textbac
     \subsection{Evaluation}\label{evaluation}
 
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}117}]:} \PY{n}{results}
+{\color{incolor}In [{\color{incolor}47}]:} \PY{n}{results}
 \end{Verbatim}
 
 
 \begin{Verbatim}[commandchars=\\\{\}]
-{\color{outcolor}Out[{\color{outcolor}117}]:} [[0.78100000000000003, 0.02947880594596736],
-           [0.87899999999999989, 0.040607881008493926],
-           [0.90400000000000014, 0.042941821107167787],
-           [0.94999999999999996, 0.020976176963403009],
-           [0.97200000000000009, 0.018867962264113199],
-           [0.94800000000000006, 0.015362291495737196],
-           [0.68799999999999994, 0.097549987186057591],
-           [0.64200000000000002, 0.18087564789103039],
-           [0.78099999999999992, 0.028442925306655785]]
+{\color{outcolor}Out[{\color{outcolor}47}]:} [[0.781, 0.02947880594596736],
+          [0.8789999999999999, 0.040607881008493926],
+          [0.9040000000000001, 0.04294182110716779],
+          [0.9549999999999998, 0.018574175621006706],
+          [0.9730000000000001, 0.0161554944214035],
+          [0.9480000000000001, 0.015362291495737196],
+          [0.688, 0.09754998718605759],
+          [0.7619999999999999, 0.10943491216243564],
+          [0.7809999999999999, 0.028442925306655785]]
 \end{Verbatim}
             
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}118}]:} \PY{n}{fig} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{15}\PY{p}{,}\PY{l+m+mi}{6}\PY{p}{)}\PY{p}{)}
-          \PY{n}{fig}\PY{o}{.}\PY{n}{suptitle}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Algorithm Comparison}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
-          \PY{n}{ax} \PY{o}{=} \PY{n}{fig}\PY{o}{.}\PY{n}{add\PYZus{}subplot}\PY{p}{(}\PY{l+m+mi}{111}\PY{p}{)}
-          \PY{n}{plt}\PY{o}{.}\PY{n}{boxplot}\PY{p}{(}\PY{n}{results}\PY{p}{)}
-          \PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}xticklabels}\PY{p}{(}\PY{n}{names}\PY{p}{)}
-          \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+{\color{incolor}In [{\color{incolor}48}]:} \PY{n}{fig} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{15}\PY{p}{,}\PY{l+m+mi}{6}\PY{p}{)}\PY{p}{)}
+         \PY{n}{fig}\PY{o}{.}\PY{n}{suptitle}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Algorithm Comparison}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{ax} \PY{o}{=} \PY{n}{fig}\PY{o}{.}\PY{n}{add\PYZus{}subplot}\PY{p}{(}\PY{l+m+mi}{111}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{boxplot}\PY{p}{(}\PY{n}{results}\PY{p}{)}
+         \PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}xticklabels}\PY{p}{(}\PY{n}{names}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
 \end{Verbatim}
 
 
     \begin{center}
-    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_63_0.png}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_74_0.png}
     \end{center}
     { \hspace*{\fill} \\}
     
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}119}]:} \PY{n}{random\PYZus{}forest} \PY{o}{=} \PY{n}{RandomForestClassifier}\PY{p}{(}\PY{p}{)}
+{\color{incolor}In [{\color{incolor}49}]:} \PY{n}{random\PYZus{}forest} \PY{o}{=} \PY{n}{RandomForestClassifier}\PY{p}{(}\PY{p}{)}
 \end{Verbatim}
 
 
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}120}]:} \PY{n}{random\PYZus{}forest}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{x\PYZus{}train}\PY{p}{,} \PY{n}{y\PYZus{}train}\PY{p}{)}
+{\color{incolor}In [{\color{incolor}50}]:} \PY{n}{random\PYZus{}forest}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{x\PYZus{}train}\PY{p}{,} \PY{n}{y\PYZus{}train}\PY{p}{)}
 \end{Verbatim}
 
 
 \begin{Verbatim}[commandchars=\\\{\}]
-{\color{outcolor}Out[{\color{outcolor}120}]:} RandomForestClassifier(bootstrap=True, class\_weight=None, criterion='gini',
-                      max\_depth=None, max\_features='auto', max\_leaf\_nodes=None,
-                      min\_impurity\_decrease=0.0, min\_impurity\_split=None,
-                      min\_samples\_leaf=1, min\_samples\_split=2,
-                      min\_weight\_fraction\_leaf=0.0, n\_estimators=10, n\_jobs=1,
-                      oob\_score=False, random\_state=None, verbose=0,
-                      warm\_start=False)
+{\color{outcolor}Out[{\color{outcolor}50}]:} RandomForestClassifier(bootstrap=True, class\_weight=None, criterion='gini',
+                     max\_depth=None, max\_features='auto', max\_leaf\_nodes=None,
+                     min\_impurity\_decrease=0.0, min\_impurity\_split=None,
+                     min\_samples\_leaf=1, min\_samples\_split=2,
+                     min\_weight\_fraction\_leaf=0.0, n\_estimators=10, n\_jobs=1,
+                     oob\_score=False, random\_state=None, verbose=0,
+                     warm\_start=False)
 \end{Verbatim}
             
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}121}]:} \PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{metrics} \PY{k}{import} \PY{n}{classification\PYZus{}report}\PY{p}{,}\PY{n}{confusion\PYZus{}matrix}
+{\color{incolor}In [{\color{incolor}51}]:} \PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{metrics} \PY{k}{import} \PY{n}{classification\PYZus{}report}\PY{p}{,}\PY{n}{confusion\PYZus{}matrix}
 \end{Verbatim}
 
 
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}122}]:} \PY{n}{predict} \PY{o}{=} \PY{n}{random\PYZus{}forest}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{x\PYZus{}test}\PY{p}{)}
+{\color{incolor}In [{\color{incolor}52}]:} \PY{n}{predict} \PY{o}{=} \PY{n}{random\PYZus{}forest}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{x\PYZus{}test}\PY{p}{)}
 \end{Verbatim}
 
 
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}123}]:} \PY{n+nb}{print}\PY{p}{(}\PY{n}{classification\PYZus{}report}\PY{p}{(}\PY{n}{y\PYZus{}test}\PY{p}{,} \PY{n}{predict}\PY{p}{)}\PY{p}{)}
+{\color{incolor}In [{\color{incolor}53}]:} \PY{c+c1}{\PYZsh{} bias variance error chart}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}54}]:} \PY{n+nb}{print}\PY{p}{(}\PY{n}{classification\PYZus{}report}\PY{p}{(}\PY{n}{y\PYZus{}test}\PY{p}{,} \PY{n}{predict}\PY{p}{)}\PY{p}{)}
 \end{Verbatim}
 
 
@@ -1215,7 +1387,7 @@ C:\textbackslash{}Users\textbackslash{}shashwat\textbackslash{}Anaconda3\textbac
              precision    recall  f1-score   support
 
           0       0.99      1.00      0.99      3431
-          1       0.99      0.96      0.98      1069
+          1       0.99      0.97      0.98      1069
 
 avg / total       0.99      0.99      0.99      4500
 
@@ -1223,15 +1395,20 @@ avg / total       0.99      0.99      0.99      4500
     \end{Verbatim}
 
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}124}]:} \PY{n+nb}{print}\PY{p}{(}\PY{n}{confusion\PYZus{}matrix}\PY{p}{(}\PY{n}{y\PYZus{}test}\PY{p}{,} \PY{n}{predict}\PY{p}{)}\PY{p}{)}
+{\color{incolor}In [{\color{incolor}55}]:} \PY{n+nb}{print}\PY{p}{(}\PY{n}{confusion\PYZus{}matrix}\PY{p}{(}\PY{n}{y\PYZus{}test}\PY{p}{,} \PY{n}{predict}\PY{p}{)}\PY{p}{)}
 \end{Verbatim}
 
 
     \begin{Verbatim}[commandchars=\\\{\}]
-[[3423    8]
- [  44 1025]]
+[[3421   10]
+ [  32 1037]]
 
     \end{Verbatim}
+
+    \section{CONCLUSION}\label{conclusion}
+
+Finally, the \textbf{Random Forest algorithm} is found to be suitable
+for this problem which gives us an accuracy of 99\%.
 
 
     % Add a bibliography block to the postdoc
