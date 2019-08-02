@@ -6,6 +6,6 @@ Training over different traditional classification models with 10-fold cross val
 Then we evaluate the testing data over the high-performing model and plot the results.
 
 ## Business Insights
-![Insight_1](output_41_1.png)
+![Insight_1](output_28_1.png)
 ![Insight_2](output_44_1.png)
 ![Insight_3](output_48_1.png)
